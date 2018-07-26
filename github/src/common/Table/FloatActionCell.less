@@ -1,0 +1,30 @@
+@import "~rsuite/styles/variables";
+
+.float-action-cell {
+  &-action-bar {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    background-color: @B000;
+    box-shadow: -20px 0 20px @B000;
+
+    .more-action-bar-open &,
+    .@{ns}table-row:hover & {
+      visibility: visible;
+      opacity: 1;
+      transition: .3s linear;
+      transition-property: background, box-shadow;
+    }
+
+    .@{ns}table-row:hover & {
+      background: @H050;
+      box-shadow: -20px 0 20px @H050;
+    }
+
+    .@{ns}btn-link .@{ns}icon svg {
+      fill: @H500;
+    }
+  }
+}

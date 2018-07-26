@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="73px" height="73px" viewBox="0 0 73 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>ID Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-773.000000, -206.000000)">
+            <g id="Group-4" transform="translate(708.000000, 161.000000)">
+                <g id="tag-copy" transform="translate(60.000000, 40.000000)">
+                    <path d="M33.9644661,7.5 L10,7.5 C8.61928813,7.5 7.5,8.61928813 7.5,10 L7.5,33.9644661 L48.232233,74.6966991 C49.2085438,75.6730099 50.7914562,75.6730099 51.767767,74.6966991 L74.6966991,51.767767 C75.6730099,50.7914562 75.6730099,49.2085438 74.6966991,48.232233 L33.9644661,7.5 Z" id="Rectangle-15" stroke="#34C3FF" stroke-width="5"></path>
+                    <circle id="Oval-8" fill="#34C3FF" fill-rule="evenodd" cx="25" cy="25" r="5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

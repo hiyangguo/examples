@@ -1,0 +1,277 @@
+{
+  "name": "Third-Party DMP",
+  "components": {
+    "user-menu": {
+      "actions": {
+        "logout": "退出"
+      }
+    },
+    "side-nav": {
+      "tabs": {
+        "audience": "人群管理",
+        "reports": "人群画像",
+        "individuals": "个体画像",
+        "campaigns": "营销活动"
+      }
+    },
+    "echarts": {
+      "empty": "数据为空"
+    },
+    "audience-table": {
+      "toolbar": {
+        "status": "状态",
+        "search": "搜索",
+        "actions": {
+          "create": "新建人群"
+        }
+      },
+      "columns": {
+        "name": "人群名称",
+        "calc-status": "计算状态",
+        "user-count": "用户数",
+        "update-time": "更新时间"
+      },
+      "actions": {
+        "reports": "查看报告",
+        "reload": "重新计算",
+        "edit": "编辑",
+        "export": "导出"
+      },
+      "messages": {
+        "fetch-fail": "获取数据失败"
+      }
+    },
+    "app-table": {
+      "columns": {
+        "app": "应用TOP",
+        "category": "分类",
+        "activity": "活跃渗透率",
+        "tgi": "TGI"
+      }
+    },
+    "form-drawer": {
+      "actions": {
+        "submit": "提交",
+        "save": "保存",
+        "save-and-calc": "保存并提交计算"
+      },
+      "messages": {
+        "submit-fail": "提交失败",
+        "fetch-fail": "获取数据失败"
+      }
+    },
+    "form": {
+      "errors": {
+        "validator.field.invalid": "字段值无效",
+        "validator.field.duplicated": "该{field}已存在"
+      }
+    },
+    "campaign-table": {
+      "toolbar": {
+        "status": "状态",
+        "search": "搜索",
+        "actions": {
+          "create": "新建活动人群"
+        }
+      },
+      "columns": {
+        "name": "人群名称",
+        "calc-status": "计算状态",
+        "throw-code": "投放代码",
+        "user-count": "用户数",
+        "update-time": "更新时间"
+      },
+      "actions": {
+        "reports": "查看报告",
+        "reload": "重新计算",
+        "edit": "编辑",
+        "export": "导出"
+      },
+      "messages": {
+        "fetch-fail": "获取数据失败"
+      }
+    }
+  },
+  "views": {
+    "home": {
+      "title": "创建人群"
+    },
+    "audience": {
+      "title": "人群列表",
+      "tabs": {
+        "first-party": "ID人群",
+        "tags": "标签人群",
+        "poi": "商业地理",
+        "compound": "复合人群"
+      },
+      "form": {
+        "titles": {
+          "create": "创建{type}人群",
+          "edit": "编辑{type}人群"
+        },
+        "fields": {
+          "name": "人群名称",
+          "file-path": {
+            "label": "文件",
+            "download": "下载模板",
+            "tip": "单个文件小于150MB，ID上限500万以下，文件格式仅支持txt，一行限一个ID"
+          }
+        }
+      }
+    },
+    "audience-first-party": {
+      "form": {
+        "fields": {
+          "id-type": "ID类型",
+          "encrypt-type": "加密类型",
+          "active-period": "活跃周期"
+        }
+      }
+    },
+    "audience-poi": {
+      "form": {
+        "fields": {
+          "poi-attribute-type": "属性类型",
+          "poi-calc-type": "计算类型",
+          "active-period": "活跃周期"
+        }
+      }
+    },
+    "reports": {
+      "title": "仪表盘",
+      "audience-tabs": {
+        "first-party": "ID人群画像",
+        "tags": "标签人群画像"
+      },
+      "tabs": {
+        "overview": "人群概览",
+        "behavior": "触媒行为"
+      },
+      "actions": {
+        "download": "下载报告"
+      }
+    },
+    "reports-overview": {
+      "reports": {
+        "preference": "人群偏好",
+        "gender": "性别",
+        "age": "年龄",
+        "income": "收入",
+        "child": "小孩",
+        "car": "汽车",
+        "degree": "学历",
+        "job": "职业",
+        "geo": "地域",
+        "device": "手机品牌"
+      },
+      "download": {
+        "file-name": "人群-{type}报表",
+        "sheet": "{type}报表",
+        "columns": {
+          "key": "{type}",
+          "value": "比例"
+        }
+      },
+      "messages": {
+        "download-fail": "下载报告失败"
+      }
+    },
+    "reports-behavior": {
+      "title": "应用分析"
+    },
+    "individuals-list": {
+      "title": "个体画像列表",
+      "calc-status": {
+        "CALCULATING": "查询中",
+        "SUCCESS": "查询完成",
+        "FAILED": "查询失败"
+      },
+      "table": {
+        "columns": {
+          "name": "个体名称",
+          "calc-status": "查询状态",
+          "update-time": "更新时间"
+        },
+        "actions": {
+          "create": "新建个体画像",
+          "details": "查看画像",
+          "reload": "重新查询",
+          "edit": "编辑"
+        }
+      },
+      "form": {
+        "titles": {
+          "create": "创建个体画像",
+          "edit": "编辑个体画像"
+        },
+        "fields": {
+          "name": "个体名称",
+          "id-type": "ID类型",
+          "encrypt-type": "加密类型",
+          "device-id": "ID"
+        }
+      }
+    },
+    "individual-details": {
+      "title": "个体画像"
+    },
+    "campaigns": {
+      "title": "活动人群列表",
+      "tabs": {
+        "tags": "标签定向",
+        "look-alike": "Look-alike定向"
+      },
+      "form": {
+        "titles": {
+          "create": "创建{type}人群",
+          "edit": "编辑{type}人群"
+        }
+      }
+    }
+  },
+  "types": {
+    "all": "全部",
+    "audience-type": {
+      "DEVICE": "ID",
+      "TAG": "标签",
+      "POI": "商业地理",
+      "MIXED": "复合"
+    },
+    "calc-status": {
+      "PENDING": "已保存",
+      "CALCULATING": "计算中",
+      "SUCCESS": "计算完成",
+      "FAILED": "计算失败"
+    },
+    "id-type": {
+      "IMEI": "IMEI",
+      "IDFA": "IDFA",
+      "MAC": "MAC",
+      "PHONE": "Phone number"
+    },
+    "encrypt-type": {
+      "UNDEFINED": "未加密",
+      "MD5": "MD5"
+    },
+    "active-period": {
+      "LESS_7": "最近7天",
+      "LESS_30": "最近30天",
+      "LESS_60": "最近60天",
+      "LESS_90": "最近90天",
+      "LESS_120": "最近120天",
+      "LESS_360": "最近360天"
+    },
+    "poi-attribute-type": {
+      "PERMANENT": "常驻人口",
+      "FLOATING": "流动人口"
+    },
+    "poi-calc-type": {
+      "AND": "交集",
+      "OR": "并集"
+    },
+    "campaign-type": {
+      "TAG": "标签定向",
+      "LOOKALIKE": "Look-alike"
+    }
+  }
+}

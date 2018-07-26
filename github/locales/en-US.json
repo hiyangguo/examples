@@ -1,0 +1,183 @@
+{
+  "name": "第三方 DMP",
+  "components": {
+    "user-menu": {
+      "actions": {
+        "logout": "退出"
+      }
+    },
+    "side-nav": {
+      "tabs": {
+        "audience": "人群管理",
+        "reports": "人群画像"
+      }
+    },
+    "echarts": {
+      "empty": "数据为空"
+    },
+    "audience-table": {
+      "toolbar": {
+        "status": "状态",
+        "search": "搜索",
+        "actions": {
+          "create": "新建人群"
+        }
+      },
+      "columns": {
+        "name": "人群名称",
+        "calc-status": "计算状态",
+        "user-count": "用户数",
+        "update-time": "更新时间"
+      },
+      "actions": {
+        "reports": "查看报告",
+        "reload": "重新计算",
+        "edit": "编辑",
+        "export": "导出"
+      },
+      "messages": {
+        "fetch-fail": "获取数据失败"
+      }
+    },
+    "app-table": {
+      "columns": {
+        "app": "应用TOP",
+        "category": "分类",
+        "activity": "活跃渗透率",
+        "tgi": "TGI"
+      }
+    },
+    "form-drawer": {
+      "actions": {
+        "submit": "提交"
+      },
+      "messages": {
+        "submit-fail": "提交失败",
+        "fetch-fail": "获取数据失败"
+      }
+    }
+  },
+  "views": {
+    "home": {
+      "title": "创建人群包"
+    },
+    "audience": {
+      "title": "人群列表",
+      "tabs": {
+        "first-party": "一方ID",
+        "tags": "用户标签",
+        "poi": "商业地理",
+        "compound": "复合人群"
+      },
+      "form": {
+        "titles": {
+          "create": "创建{type}人群",
+          "edit": "编辑{type}人群"
+        },
+        "fields": {
+          "name": "人群名称",
+          "file-path": {
+            "label": "文件",
+            "download": "下载模板",
+            "tip": "单个文件小于150MB，ID上限500万以下，文件格式仅支持txt或csv，如一行多ID，分隔符使用“,”"
+          }
+        }
+      }
+    },
+    "audience-first-party": {
+      "form": {
+        "fields": {
+          "id-type": "ID类型",
+          "encrypt-type": "加密类型",
+          "active-period": "活跃周期"
+        }
+      }
+    },
+    "audience-poi": {
+      "form": {
+        "fields": {
+          "poi-attribute-type": "属性类型",
+          "poi-calc-type": "计算类型",
+          "active-period": "活跃周期"
+        }
+      }
+    },
+    "reports": {
+      "title": "仪表盘",
+      "tabs": {
+        "overview": "人群概览",
+        "behavior": "触媒行为"
+      },
+      "actions": {
+        "download": "下载报告"
+      }
+    },
+    "reports-overview": {
+      "reports": {
+        "preference": "人群偏好",
+        "gender": "性别",
+        "age": "年龄",
+        "income": "收入",
+        "child": "小孩",
+        "car": "汽车",
+        "degree": "学历",
+        "job": "职业",
+        "geo": "地域",
+        "device": "手机品牌"
+      },
+      "download": {
+        "file-name": "人群-{type}报表",
+        "sheet": "{type}报表",
+        "columns": {
+          "key": "{type}",
+          "value": "比例"
+        }
+      },
+      "messages": {
+        "download-fail": "下载报告失败"
+      }
+    },
+    "reports-behavior": {
+      "title": "应用分析"
+    }
+  },
+  "types": {
+    "all": "全部",
+    "audience-type": {
+      "DEVICE": "一方ID",
+      "TAG": "用户标签",
+      "POI": "商业地理",
+      "MIXED": "复合"
+    },
+    "calc-status": {
+      "CALCULATING": "计算中",
+      "SUCCESS": "计算完成",
+      "FAILED": "计算失败"
+    },
+    "id-type": {
+      "IMEI": "IMEI",
+      "IDFA": "IDFA",
+      "MAC": "MAC"
+    },
+    "encrypt-type": {
+      "UNDEFINED": "未加密",
+      "MD5": "MD5"
+    },
+    "active-period": {
+      "LESS_7": "最近7天",
+      "LESS_30": "最近30天",
+      "LESS_60": "最近60天",
+      "LESS_90": "最近90天",
+      "LESS_120": "最近120天",
+      "LESS_360": "最近360天"
+    },
+    "poi-attribute-type": {
+      "PERMANENT": "常驻人口",
+      "FLOATING": "流动人口"
+    },
+    "poi-calc-type": {
+      "AND": "交集",
+      "OR": "并集"
+    }
+  }
+}

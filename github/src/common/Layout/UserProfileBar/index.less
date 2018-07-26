@@ -1,0 +1,65 @@
+@import "~rsuite/styles/variables";
+@import "~rsuite/styles/mixins/utilities";
+
+.user-profile-button-toolbar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+
+  .user-profile-thumb {
+    cursor: pointer;
+  }
+}
+.rs-popover.user-profile-menu {
+  padding: 0;
+  .arrow {
+    display: none;
+  }
+  .rs-popover-content {
+    width: 250px;
+    margin-top: 0;
+  }
+
+  .user-profile-menu-header {
+    padding: 20px;
+    display: flex;
+    border-bottom: 1px solid @B100;
+
+    .user-profile-avatar {
+      margin-right: 20px;
+    }
+    .user-profile-info {
+      .username {
+        font-size: 14px;
+        line-height: 1.5;
+        .ellipsis-basic();
+      }
+      .email {
+        color: @B600;
+        line-height: 1.5;
+        .ellipsis-basic();
+      }
+    }
+  }
+
+  .user-profile-menu-footer {
+    .user-profile-actions {
+      .rs-btn {
+        padding: 18px 20px;
+        border-radius: 0;
+
+        .rs-icon {
+          margin-right: .5em;
+        }
+      }
+
+      .language-symbol {
+        font-size: 12px;
+        padding: 4px;
+        border: 1px solid currentColor;
+        border-radius: 2px;
+      }
+    }
+  }
+}
