@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sidebar, Sidenav } from 'rsuite';
 import './AppsBar.less';
+import SvgSprite from '@/components/SvgSprite';
 
 function AppsBar({ apps = [] }) {
   return (
@@ -10,7 +11,7 @@ function AppsBar({ apps = [] }) {
     >
       <Sidenav appearance="subtle">
         <Sidenav.Header>
-          <img src="/resources/img/hypers-logo.jpg" alt="HYPERS" />
+          <SvgSprite id="rsuite" />
         </Sidenav.Header>
         <Sidenav.Body>
 

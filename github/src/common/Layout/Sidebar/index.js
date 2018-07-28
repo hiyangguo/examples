@@ -5,10 +5,10 @@ import { Sidebar as RsSidebar, Sidenav, Icon, Nav, Navbar } from 'rsuite';
 import classnames from 'classnames';
 import { Link } from 'react-router';
 import setDisplayName from 'recompose/setDisplayName';
-import env from '@/utils/env';
 import AppsBar from '@/common/Layout/Sidebar/AppsBar';
 import { getAuthUser } from '@/redux/selectors';
 import ToJS from '@/hocs/ToJS';
+import SvgSprite from '@/components/SvgSprite';
 
 const styles = {
   sideBar: {
@@ -48,7 +48,7 @@ function Sidebar({ expand, onToggle, authUser }: Props) {
             !expand &&
 
             <Link to="/">
-              <img style={styles.headerImg} height={20} alt={env('appName')} src="/resources/img/logo.svg" />
+              <SvgSprite id="rsuite" />
             </Link>
           }
           {
