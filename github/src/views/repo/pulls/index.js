@@ -25,7 +25,7 @@ class RepoIssues extends PureComponent {
     const { dispatch, params: { owner, name } } = this.props;
     const { sortColumn, sortType } = this.state;
     this.setState(() => ({ fetching: true }));
-    return axios(`/repos/${owner}/${name}/issues`, {
+    return axios(`/repos/${owner}/${name}/pulls`, {
       params: {
         sort: sortColumn.replace('_at', ''),
         direction: sortType,

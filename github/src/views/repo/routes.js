@@ -19,6 +19,10 @@ module.exports = {
       ]
     },
     {
+      path: 'pulls',
+      component: require('./pulls')
+    },
+    {
       path: '*'
     }
   ]
