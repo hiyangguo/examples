@@ -2,10 +2,10 @@ import createReducer from '@/redux/functions/createReducer';
 import { fromJS } from 'immutable';
 
 const initialState = {
-  tags: {},
   users: {},
   orgs: {},
-  repos: {}
+  repos: {},
+  issues: {}
 };
 
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';

@@ -1,23 +1,22 @@
 import { createSelector } from 'reselect';
-import { List } from 'immutable';
+import { denormalize } from 'normalizr';
+import * as Entity from '@/constants/Entities';
 
 export const getAuthUser = state => state.getIn(['app', 'login']);
 export const getError = state => state.getIn(['app', 'error']);
 export const getLanguage = state => state.getIn(['app', 'language']);
 
-export const getTags = state => state.getIn(['entities', 'tags']);
-export const getTagsByIds = ids =>
+
+const selectEntities = state => state.get('entities');
+
+export const selectRepo = (owner, name) =>
   createSelector(
-    [getTags],
-    tags => {
-      return List(ids).map(id => tags.get(id.toString()));
-    }
+    [selectEntities],
+    entities => denormalize(`${owner}/${name}`, Entity.Repository, entities),
   );
 
-
-const selectRepos = state => state.getIn(['entities', 'repos']);
-export const selectRepo = fullName =>
+export const selectIssue = (owner, name, number) =>
   createSelector(
-    [selectRepos],
-    repos => repos.get(fullName)
+    [selectEntities],
+    entities => denormalize(`${owner}/${name}#${number}`, Entity.Issue, entities),
   );
