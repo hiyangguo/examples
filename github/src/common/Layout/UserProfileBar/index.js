@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { ButtonToolbar, Icon, Popover, Whisper, ButtonGroup, Button, Tooltip } from 'rsuite';
+import { Link } from 'react-router';
+import { ButtonToolbar, Icon, Popover, Whisper, ButtonGroup, Button, Tooltip, Dropdown } from 'rsuite';
 import ToJS from '@/hocs/ToJS';
 import { getAuthUser } from '@/redux/selectors';
 
@@ -9,7 +9,7 @@ function Avatar({ size = 40, ...props }) {
   const style = {
     width: size,
     height: size,
-    borderRadius: '50%'
+    borderRadius: '50%',
   };
   return (
     <img {...props} style={style} />
@@ -19,7 +19,7 @@ function Avatar({ size = 40, ...props }) {
 function UserProfileBar({ authUser }) {
 
   function handleLogOut() {
-    location.href = '/logout';
+    //  clear stored credentials
   }
 
   function renderPopover() {
@@ -29,19 +29,37 @@ function UserProfileBar({ authUser }) {
           <Avatar src={authUser.avatar_url} className="user-profile-avatar" />
           <div className="user-profile-info">
             <div className="username">
-              Signed in as
+              {authUser.name || 'Signed in as'}
             </div>
             <div className="email">
-              <b>{authUser.login}</b>
+              {authUser.login}
             </div>
           </div>
         </div>
+        <Dropdown.Menu className="user-profile-menu-links">
+          <Dropdown.Item componentClass={Link} to={`/${authUser.login}`}>
+            Your profile
+          </Dropdown.Item>
+          <Dropdown.Item componentClass={Link} to={`/${authUser.login}?tab=repositories`}>
+            Your repositories
+          </Dropdown.Item>
+          <Dropdown.Item componentClass={Link} to={`/${authUser.login}?tab=stars`}>
+            Your stars
+          </Dropdown.Item>
+          <Dropdown.Item href="https://gist.github.com">
+            Your gists
+          </Dropdown.Item>
+        </Dropdown.Menu>
         <div className="user-profile-menu-footer">
           <ButtonToolbar className="user-profile-actions">
             <ButtonGroup justified>
+              <Button appearance="subtle" componentClass={Link} to="/settings/profile">
+                <Icon icon="cog" fixedWidth />
+                Settings
+              </Button>
               <Button appearance="subtle" onClick={handleLogOut}>
                 <Icon icon="power-off" fixedWidth />
-                <FormattedMessage id="components.user-menu.actions.logout" />
+                Sign out
               </Button>
             </ButtonGroup>
           </ButtonToolbar>
@@ -77,5 +95,5 @@ function UserProfileBar({ authUser }) {
 export default connect(
   state => ({
     authUser: getAuthUser(state),
-  })
+  }),
 )(ToJS(UserProfileBar));

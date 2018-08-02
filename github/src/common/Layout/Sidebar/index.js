@@ -9,14 +9,16 @@ import AppsBar from '@/common/Layout/Sidebar/AppsBar';
 import { getAuthUser } from '@/redux/selectors';
 import ToJS from '@/hocs/ToJS';
 import SvgSprite from '@/components/SvgSprite';
+// import Octicon, { GitPullRequest, IssueOpened } from '@githubprimer/octicons-react';
+import Octicon from '@/components/Octicon';
 
 const styles = {
   sideBar: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   appsDropdownImg: { marginRight: 10, verticalAlign: 'middle' },
-  headerImg: { maxWidth: 56 }
+  headerImg: { maxWidth: 56 },
 };
 
 type Props = {
@@ -65,7 +67,20 @@ function Sidebar({ expand, onToggle, authUser }: Props) {
         >
           <Sidenav.Body>
             <Nav>
-
+              <Nav.Item
+                componentClass={Link}
+                to="/pulls"
+                icon={<Octicon name="git-pull-request" />}
+              >
+                Pull requests
+              </Nav.Item>
+              <Nav.Item
+                componentClass={Link}
+                to="/pulls"
+                icon={<Octicon name="issue-opened" />}
+              >
+                Issues
+              </Nav.Item>
             </Nav>
           </Sidenav.Body>
         </Sidenav>
@@ -91,6 +106,6 @@ function Sidebar({ expand, onToggle, authUser }: Props) {
 
 export default setDisplayName('Sidebar')(connect(
   state => ({
-    authUser: getAuthUser(state)
-  })
+    authUser: getAuthUser(state),
+  }),
 )(ToJS(Sidebar)));

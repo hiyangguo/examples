@@ -8,6 +8,7 @@ import * as Entity from '@/constants/Entities';
 import connect from 'react-redux/es/connect/connect';
 import { selectRepo } from '@/redux/selectors';
 import ToJS from '@/hocs/ToJS';
+import Octicon from '@/components/Octicon';
 
 function NavTab(props) {
   return <Nav.Item componentClass={Link} {...props} />;
@@ -37,13 +38,52 @@ class RepositoryLayout extends PureComponent {
         <Nav
           appearance="subtle"
         >
-          <NavTab to={repoUrl} active={isActive(repoUrl, true) || isActive(`${repoUrl}/commits`)}>Code</NavTab>
-          <NavTab to={`${repoUrl}/issues`} active={isActive(`${repoUrl}/issues`)}>Issues</NavTab>
-          <NavTab to={`${repoUrl}/pulls`} active={isActive(`${repoUrl}/pulls`)}>Pull requests</NavTab>
-          <NavTab to={`${repoUrl}/projects`} active={isActive(`${repoUrl}/projects`)}>Projects</NavTab>
-          <NavTab to={`${repoUrl}/wiki`} active={isActive(`${repoUrl}/wiki`)}>Wiki</NavTab>
-          <NavTab to={`${repoUrl}/pulse`} active={isActive(`${repoUrl}/pulse`)}>Insights</NavTab>
-          <NavTab to={`${repoUrl}/settings`} active={isActive(`${repoUrl}/settings`)}>Settings</NavTab>
+          <NavTab
+            to={repoUrl}
+            active={isActive(repoUrl, true) || isActive(`${repoUrl}/commits`)}
+            icon={<Octicon name="code" />}
+          >
+            Code
+          </NavTab>
+          <NavTab
+            to={`${repoUrl}/issues`}
+            active={isActive(`${repoUrl}/issues`)}
+            icon={<Octicon name="issue-opened" />}
+          >Issues</NavTab>
+          <NavTab
+            to={`${repoUrl}/pulls`}
+            active={isActive(`${repoUrl}/pulls`)}
+            icon={<Octicon name="git-pull-request" />}
+          >
+            Pull requests</NavTab>
+          <NavTab
+            to={`${repoUrl}/projects`}
+            active={isActive(`${repoUrl}/projects`)}
+            icon={<Octicon name="project" />}
+          >
+            Projects
+          </NavTab>
+          <NavTab
+            to={`${repoUrl}/wiki`}
+            active={isActive(`${repoUrl}/wiki`)}
+            icon={<Octicon name="book" />}
+          >
+            Wiki
+          </NavTab>
+          <NavTab
+            to={`${repoUrl}/pulse`}
+            active={isActive(`${repoUrl}/pulse`)}
+            icon={<Octicon name="graph" />}
+          >
+            Insights
+          </NavTab>
+          <NavTab
+            to={`${repoUrl}/settings`}
+            active={isActive(`${repoUrl}/settings`)}
+            icon={<Octicon name="gear" />}
+          >
+            Settings
+          </NavTab>
         </Nav>
         {
           repository &&

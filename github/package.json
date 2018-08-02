@@ -9,6 +9,7 @@
     "build": "NODE_ENV=production webpack --progress --config webpack.prod.js"
   },
   "dependencies": {
+    "@githubprimer/octicons-react": "^8.0.0",
     "axios": "^0.18.0",
     "classnames": ">=2.0.0",
     "echarts": "^4.1.0",
