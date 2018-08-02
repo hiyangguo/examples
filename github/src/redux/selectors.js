@@ -9,6 +9,11 @@ export const getLanguage = state => state.getIn(['app', 'language']);
 
 const selectEntities = state => state.get('entities');
 
+export const selectUser = (login) =>
+  createSelector(
+    [selectEntities],
+    entities => denormalize(login, Entity.User, entities),
+  );
 export const selectRepo = (owner, name) =>
   createSelector(
     [selectEntities],

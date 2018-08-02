@@ -2,18 +2,26 @@ import { schema } from 'normalizr';
 
 export const User = new schema.Entity('users', {}, {
   idAttribute: 'login',
-}, {
-  processStrategy(user) {
-    return {
-      ...user,
-      route_path: `/${user.login}`,
+  processStrategy(user, parent, key) {
+    const route_path = `/${user.login}`;
+    switch (key) {
+      case 'owner':
+        return { ...user, repos: [parent.full_name], route_path };
+      default:
+        return { ...user, route_path };
     }
+  },
+  mergeStrategy(userA, userB) {
+    return {
+      ...userA,
+      ...userB,
+      repos: [...(userA.repos || []), ...(userB.repos || [])],
+    };
   },
 });
 
 export const Organization = new schema.Entity('orgs', {}, {
   idAttribute: 'login',
-}, {
   processStrategy(org) {
     return {
       ...org,
@@ -44,9 +52,6 @@ export const Issue = new schema.Entity('issues', {
 export const Repository = new schema.Entity('repos', {
   owner: RepoOwner,
   organization: Organization,
-
-  // custom
-  issues: [Issue],
 }, {
   idAttribute: 'full_name',
   processStrategy(repo) {
@@ -55,4 +60,13 @@ export const Repository = new schema.Entity('repos', {
       route_path: `/${repo.full_name}`,
     }
   },
+});
+
+// custom
+User.define({
+  repos: [Repository],
+});
+
+Repository.define({
+  issues: [Issue],
 });

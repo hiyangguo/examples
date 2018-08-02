@@ -51,6 +51,7 @@ const routes = {
         }
       },
       childRoutes: [
+        require('./user/routes'),
         require('./repo/routes')
       ]
     },
