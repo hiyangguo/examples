@@ -1,23 +1,22 @@
 import React from 'react';
-import { Icon } from 'rsuite';
 import { Link } from 'react-router';
 import moment from 'moment';
-import _get from 'lodash/get';
 import { Table } from '@/rsuite';
+import Octicon from '@/components/Octicon';
 
 const { Column, HeaderCell, Cell } = Table;
 
 function RepoNameCell({ rowData, dataKey = 'name', ...props }) {
-  const { name, fork } = rowData;
+  const { name, fork, updated_at } = rowData;
   return (
     <Cell {...props}>
-      <Link to={rowData.route_path}>{name}</Link>
-      {
-        fork &&
-        <p>
-          <small>Forked</small>
-        </p>
-      }
+      <Link to={rowData.route_path}>
+        <Octicon name={fork ? 'repo-forked' : 'repo'} />
+        {name}
+      </Link>
+      <p>
+        <small>Updated {moment(updated_at).fromNow()}</small>
+      </p>
     </Cell>
   );
 }
