@@ -6,6 +6,7 @@ const initialState = {
   orgs: {},
   repos: {},
   issues: {},
+  commits: {}
 };
 
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';

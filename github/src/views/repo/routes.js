@@ -3,9 +3,18 @@ module.exports = {
   component: require('./Layout'),
   indexRoute: {
     title: 'Repository',
-    component: require('./index')
+    component: require('./readme')
   },
   childRoutes: [
+    {
+      path: 'commits',
+      childRoutes: [
+        {
+          path: ':sha',
+          component: require('./commits')
+        }
+      ]
+    },
     {
       path: 'issues',
       indexRoute: {

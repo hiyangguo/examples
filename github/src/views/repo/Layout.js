@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Loader, Nav } from 'rsuite';
+import { Nav } from 'rsuite';
 import { Link } from 'react-router';
 import axios from 'axios';
 import { normalize } from 'normalizr';
@@ -24,7 +24,7 @@ class RepositoryLayout extends PureComponent {
     const { dispatch, params: { owner, name } } = this.props;
     return axios(`/repos/${owner}/${name}`)
       .then(({ data }) => {
-        const { result, entities } = normalize(data, Entity.Repository);
+        const { entities } = normalize(data, Entity.Repository);
         dispatch(updateEntities(entities));
       });
   }
@@ -40,10 +40,17 @@ class RepositoryLayout extends PureComponent {
         >
           <NavTab
             to={repoUrl}
-            active={isActive(repoUrl, true) || isActive(`${repoUrl}/commits`)}
+            active={isActive(repoUrl, true)}
+            icon={<Octicon name="file" />}
+          >
+            README
+          </NavTab>
+          <NavTab
+            to={`${repoUrl}/commits${repository && `/${repository.default_branch}`}`}
+            active={isActive(`${repoUrl}/commits`)}
             icon={<Octicon name="code" />}
           >
-            Code
+            Commits
           </NavTab>
           <NavTab
             to={`${repoUrl}/issues`}

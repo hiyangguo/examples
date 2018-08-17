@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import { denormalize } from 'normalizr';
+import _memorize from 'lodash/memoize';
 import * as Entity from '@/constants/Entities';
+import { Map } from 'immutable';
 
 export const getAuthUser = state => state.getIn(['app', 'login']);
 export const getError = state => state.getIn(['app', 'error']);
@@ -25,3 +27,17 @@ export const selectIssue = (owner, name, number) =>
     [selectEntities],
     entities => denormalize(`${owner}/${name}#${number}`, Entity.Issue, entities),
   );
+
+export const selectCommits = createSelector(
+  state => state.get('entities'),
+  entities => _memorize(
+    ids => denormalize(ids, [Entity.Commit], entities)
+  )
+);
+
+export const selectView = createSelector(
+  state => state.get('views'),
+  views => _memorize(
+    pathname => views.get(pathname, Map())
+  )
+);

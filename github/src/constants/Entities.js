@@ -62,6 +62,16 @@ export const Repository = new schema.Entity('repos', {
   },
 });
 
+export const Commit = new schema.Entity('commits', {}, {
+  idAttribute: 'node_id',
+  processStrategy(repo) {
+    return {
+      ...repo,
+      route_path: repo.html_url.replace('https://github.com', '')
+    }
+  }
+});
+
 // custom
 User.define({
   repos: [Repository],

@@ -4,6 +4,7 @@ import { combineReducers } from 'redux-immutable';
 
 import app from './modules/app';
 import entities from './modules/entities';
+import views from './modules/views';
 import routing from './modules/routing';
 
 const middlewares = [thunkMiddleware];
@@ -18,6 +19,7 @@ const store = createStore(
   combineReducers({
     app,
     entities,
+    views,
     routing
   }),
   composeEnhancers(applyMiddleware(...middlewares))
