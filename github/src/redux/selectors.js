@@ -25,6 +25,13 @@ export const selectRepo = createSelector(
   )
 );
 
+export const selectRepos = createSelector(
+  state => state.get('entities'),
+  entities => _memorize(
+    (ids = List()) => denormalize(ids, [Entity.Repository], entities)
+  )
+);
+
 export const selectIssue = createSelector(
   state => state.get('entities'),
   entities => _memorize(

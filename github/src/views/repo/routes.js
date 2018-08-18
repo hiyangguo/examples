@@ -29,7 +29,7 @@ module.exports = {
     },
     {
       path: 'pulls',
-      component: require('./pulls')
+      component: require('./issues')
     },
     {
       path: '*'

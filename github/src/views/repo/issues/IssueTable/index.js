@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Icon } from 'rsuite';
-import { Link } from 'react-router';
+import { Link, routerShape } from 'react-router';
 import moment from 'moment';
 import _get from 'lodash/get';
 import { Table } from '@/rsuite';
 
 const { Column, HeaderCell, Cell } = Table;
 
-function IssueTitleCell({ rowData, dataKey = 'title', ...props }) {
-  const { number, title, user: { login } } = rowData;
+function IssueTitleCell({ rowData, dataKey = 'title', onClickAuthor, ...props }) {
+  const { title, number, user: { login } } = rowData;
   return (
     <Cell {...props}>
       <Link to={rowData.route_path}>{title}</Link>
       <p>
-        <small>#{number} by {login}</small>
+        <small>#{number} by <Link role="button" onClick={() => onClickAuthor(login)}>{login}</Link></small>
       </p>
     </Cell>
   );
@@ -43,12 +43,12 @@ function IssueCommentsCell({ rowData, dataKey = 'comments', ...props }) {
   );
 }
 
-function IssueTable(props) {
+function IssueTable({ onClickAuthor, ...props }) {
   return (
     <Table rowHeight={66} {...props}>
       <Column flexGrow={1}>
         <HeaderCell>Title</HeaderCell>
-        <IssueTitleCell dataKey="title" />
+        <IssueTitleCell dataKey="title" onClickAuthor={onClickAuthor} />
       </Column>
       <Column width={120} align="right" sortable>
         <HeaderCell>Created at</HeaderCell>

@@ -61,6 +61,14 @@ export const Repository = new schema.Entity('repos', {
       route_path: `/${repo.full_name}`,
     }
   },
+  mergeStrategy(repo1, repo2) {
+    return {
+      ...repo1,
+      ...repo2,
+      issues: [...(repo1.issues || []), (repo2.issues || []).filter(item => !item.pull_request)],
+      pulls: [...(repo1.repos || []), (repo2.issues || []).filter(item => item.pull_request)]
+    }
+  }
 });
 
 export const Commit = new schema.Entity('commits', {}, {
@@ -82,5 +90,6 @@ User.define({
 
 Repository.define({
   issues: [Issue],
+  pulls: [Issue],
   commits: [Commit]
 });
