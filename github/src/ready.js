@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return,array-callback-return,no-plusplus */
 import axios from 'axios';
+import env, { setItem } from '@/utils/env';
 import { isIE } from '@/constants/BrowserConst';
 import store from '@/redux';
 import action from '@/redux/functions/action';
@@ -47,14 +48,23 @@ filter.push(new Promise((resolve) => {
   });
 }));
 
+function fetchEnv() {
+  return axios('https://api.github.com')
+    .then(({ data }) => {
+      console.log(data);
+      setItem(data);
+    });
+}
+
 // 获取用户信息
 function fetchUser() {
-  return axios('/user')
+  return axios(env('current_user_url'))
     .then(({ data }) => {
       store.dispatch(action(UPDATE_APP, { login: data }));
     });
 }
 
 export default function ready() {
-  return fetchUser();
+  return fetchEnv()
+    .then(() => fetchUser());
 }

@@ -52,6 +52,7 @@ export const Issue = new schema.Entity('issues', {
 export const Repository = new schema.Entity('repos', {
   owner: RepoOwner,
   organization: Organization,
+
 }, {
   idAttribute: 'full_name',
   processStrategy(repo) {
@@ -63,11 +64,13 @@ export const Repository = new schema.Entity('repos', {
 });
 
 export const Commit = new schema.Entity('commits', {}, {
-  idAttribute: 'node_id',
-  processStrategy(repo) {
+  idAttribute(commit, repo) {
+    return `${repo.full_name}@${commit.sha.substr(0, 7)}`;
+  },
+  processStrategy(commit, repo) {
     return {
-      ...repo,
-      route_path: repo.html_url.replace('https://github.com', '')
+      ...commit,
+      route_path: `${repo.route_path}/commit/${commit.sha}`,
     }
   }
 });
@@ -79,4 +82,5 @@ User.define({
 
 Repository.define({
   issues: [Issue],
+  commits: [Commit]
 });

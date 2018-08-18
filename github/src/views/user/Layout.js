@@ -83,6 +83,6 @@ class UserLayout extends PureComponent {
 
 module.exports = connect(
   (state, { params: { login } }) => ({
-    user: selectUser(login)(state),
+    user: selectUser(state)(login),
   }),
 )(ToJS(UserLayout));

@@ -1,24 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { List } from 'immutable';
-import { updateEntities } from '@/redux/modules/entities';
-import { selectCommits, selectRepo, selectView } from '@/redux/selectors';
 import ToJS from '@/hocs/ToJS';
-import { normalize } from 'normalizr';
-import * as Entity from '@/constants/Entities';
+import { selectCommits, selectView } from '@/redux/selectors';
 import { makeSetViewState } from '@/redux/modules/views';
-import CommitsHistory from '@/views/repo/commits/CommitsHistory';
-import { Panel } from 'rsuite';
 import CommitsTable from '@/views/repo/commits/CommitsTable';
+import { bindActionCreators } from 'redux';
+import { fetchCommits } from '@/redux/actions';
 
 class RepoCommits extends PureComponent {
 
   state = {
     fetching: false,
-
-    sortColumn: 'created_at',
-    sortType: 'desc',
   };
 
   componentDidMount() {
@@ -26,20 +18,14 @@ class RepoCommits extends PureComponent {
   }
 
   fetchCommits() {
-    const { sortColumn, sortType } = this.state;
     this.setState(() => ({ fetching: true }));
-    return this.props.onFetchCommits({
-      sort: sortColumn.replace('_at', ''),
-      direction: sortType,
-    })
+    return this.props.onFetchCommits()
       .finally(() => this.setState(() => ({ fetching: false })));
   }
 
-  handleSort = (sortColumn, sortType) => this.setState({ sortColumn, sortType }, this.fetchCommits);
-
   render() {
     const { commits } = this.props;
-    const { fetching, sortColumn, sortType } = this.state;
+    const { fetching } = this.state;
     return (
       <CommitsTable
         data={commits}
@@ -49,38 +35,29 @@ class RepoCommits extends PureComponent {
   }
 }
 
-function mapState2Props(state, { location, params: { owner, name } }) {
+function mapState2Props(state, { location }) {
   const viewState = selectView(state)(location.pathname);
 
-  const commits = selectCommits(state)(viewState.get('commits', List()));
-
   return {
-    commits,
-    repository: selectRepo(owner, name)(state),
+    commits: selectCommits(state)(viewState.get('commits')),
   }
 }
 
 function mapDispatch2Props(dispatch, { location, params: { owner, name, sha } }) {
-  const setViewState = makeSetViewState(location.pathname);
+  const actions = bindActionCreators({
+    setViewState: makeSetViewState(location.pathname),
+    fetchCommits
+  }, dispatch);
 
   const onFetchCommits = params =>
-    axios(`/repos/${owner}/${name}/commits`, { sha, ...params })
-      .then((res) => {
-        const { data } = res;
-        const { result, entities } = normalize(data, [Entity.Commit]);
-        dispatch(updateEntities(entities));
-
-        dispatch(setViewState({
-          commits: result
-        }));
-
-        return res;
+    actions.fetchCommits(owner, name, sha, params)
+      .then(({ data }) => {
+        actions.setViewState({
+          commits: data
+        });
       });
 
-
   return {
-    dispatch,
-    setViewState,
     onFetchCommits
   }
 }

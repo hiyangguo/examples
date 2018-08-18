@@ -69,7 +69,7 @@ class RepoIssues extends PureComponent {
 
 module.exports = connect(
   (state, { params: { owner, name, number } }) => ({
-    repository: selectRepo(owner, name)(state),
-    issue: selectIssue(owner, name, number)(state),
+    repository: selectRepo(state)(owner, name),
+    issue: selectIssue(state)(`${owner}/${name}#${number}`),
   }),
 )(ToJS(RepoIssues));

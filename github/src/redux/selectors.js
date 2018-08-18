@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { denormalize } from 'normalizr';
 import _memorize from 'lodash/memoize';
 import * as Entity from '@/constants/Entities';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 
 export const getAuthUser = state => state.getIn(['app', 'login']);
 export const getError = state => state.getIn(['app', 'error']);
@@ -11,27 +11,38 @@ export const getLanguage = state => state.getIn(['app', 'language']);
 
 const selectEntities = state => state.get('entities');
 
-export const selectUser = (login) =>
-  createSelector(
-    [selectEntities],
-    entities => denormalize(login, Entity.User, entities),
-  );
-export const selectRepo = (owner, name) =>
-  createSelector(
-    [selectEntities],
-    entities => denormalize(`${owner}/${name}`, Entity.Repository, entities),
-  );
+export const selectUser = createSelector(
+  selectEntities,
+  entities => _memorize(
+    login => denormalize(login, Entity.User, entities)
+  ),
+);
 
-export const selectIssue = (owner, name, number) =>
-  createSelector(
-    [selectEntities],
-    entities => denormalize(`${owner}/${name}#${number}`, Entity.Issue, entities),
-  );
+export const selectRepo = createSelector(
+  state => state.get('entities'),
+  entities => _memorize(
+    (owner, name) => denormalize(`${owner}/${name}`, Entity.Repository, entities)
+  )
+);
+
+export const selectIssue = createSelector(
+  state => state.get('entities'),
+  entities => _memorize(
+    id => denormalize(id, Entity.Issue, entities)
+  )
+);
+
+export const selectIssues = createSelector(
+  state => state.get('entities'),
+  entities => _memorize(
+    (ids = List()) => denormalize(ids, [Entity.Issue], entities)
+  )
+);
 
 export const selectCommits = createSelector(
   state => state.get('entities'),
   entities => _memorize(
-    ids => denormalize(ids, [Entity.Commit], entities)
+    (ids = List()) => denormalize(ids, [Entity.Commit], entities)
   )
 );
 

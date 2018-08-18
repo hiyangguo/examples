@@ -41,6 +41,6 @@ class UserRepos extends PureComponent {
 
 export default withRouter(connect(
   (state, { params: { login } }) => ({
-    user: selectUser(login)(state),
+    user: selectUser(state)(login),
   }),
 )(ToJS(UserRepos)));
