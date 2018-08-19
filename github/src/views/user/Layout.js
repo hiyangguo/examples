@@ -1,14 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Nav } from 'rsuite';
 import { Link } from 'react-router';
-import axios from 'axios';
-import { normalize } from 'normalizr';
-import { updateEntities } from '@/redux/modules/entities';
-import * as Entity from '@/constants/Entities';
 import connect from 'react-redux/es/connect/connect';
 import { selectUser } from '@/redux/selectors';
 import ToJS from '@/hocs/ToJS';
-import Octicon from '@/components/Octicon';
+import { bindActionCreators } from 'redux';
+import { fetchUser } from '@/redux/actions';
 
 function NavTab(props) {
   return <Nav.Item componentClass={Link} {...props} />;
@@ -21,12 +18,7 @@ class UserLayout extends PureComponent {
   }
 
   fetchUser() {
-    const { dispatch, params: { login } } = this.props;
-    return axios(`/users/${login}`)
-      .then(({ data }) => {
-        const { result, entities } = normalize(data, Entity.User);
-        dispatch(updateEntities(entities));
-      });
+    return this.props.onFetchUser();
   }
 
   render() {
@@ -81,8 +73,26 @@ class UserLayout extends PureComponent {
   }
 }
 
+function mapState2Props(state, { params: { login } }) {
+  return {
+    user: selectUser(state)(login)
+  }
+}
+
+function mapDispatch2Props(dispatch, { location, params: { login } }) {
+  const actions = bindActionCreators({
+    fetchUser
+  }, dispatch);
+
+  const onFetchUser = params =>
+    actions.fetchUser(login, params);
+
+  return {
+    onFetchUser
+  }
+}
+
 module.exports = connect(
-  (state, { params: { login } }) => ({
-    user: selectUser(state)(login),
-  }),
+  mapState2Props,
+  mapDispatch2Props
 )(ToJS(UserLayout));

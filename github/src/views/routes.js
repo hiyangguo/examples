@@ -44,8 +44,6 @@ const routes = {
         }
       },
       indexRoute: {
-        // title: null,
-        // component: Home
         onEnter(_, replace) {
           replace('/rsuite/rsuite');
         }

@@ -4,7 +4,7 @@ import { Container, Content } from 'rsuite';
 import { FormattedMessage } from 'react-intl';
 
 import ToJS from '@/hocs/ToJS';
-import { getAuthUser } from '@/redux/selectors';
+import { getAuthUser, selectView } from '@/redux/selectors';
 
 import Sidebar from './Sidebar';
 import UserProfileBar from './UserProfileBar';
@@ -23,7 +23,7 @@ class Layout extends PureComponent {
   render() {
     const { expandSidebar } = this.state;
     const { routes, authUser } = this.props;
-    const pageTitle = routes.reduce((acc, { title = acc }) => title, 'name');
+    const pageTitle = this.props.pageTitle || routes.reduce((acc, { title = acc }) => title, 'name');
     return (
       <Container>
         <Sidebar
@@ -48,9 +48,11 @@ class Layout extends PureComponent {
   }
 }
 
-function mapState2Props(state) {
+function mapState2Props(state, { location }) {
+  const viewState = selectView(state)(location.pathname);
   return {
-    authUser: getAuthUser(state)
+    authUser: getAuthUser(state),
+    pageTitle: viewState.get('pageTitle')
   };
 }
 

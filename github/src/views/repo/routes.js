@@ -1,8 +1,9 @@
 module.exports = {
   path: ':owner/:name',
+  title: 'Repository',
+
   component: require('./Layout'),
   indexRoute: {
-    title: 'Repository',
     component: require('./readme')
   },
   childRoutes: [
@@ -30,9 +31,6 @@ module.exports = {
     {
       path: 'pulls',
       component: require('./issues')
-    },
-    {
-      path: '*'
     }
   ]
 };

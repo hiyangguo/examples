@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import ToJS from '@/hocs/ToJS';
 import { selectRepos, selectView } from '@/redux/selectors';
 import RepoTable from '@/views/user/repos/RepoTable';
@@ -75,7 +74,7 @@ function mapDispatch2Props(dispatch, { location, params: { login } }) {
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapState2Props,
   mapDispatch2Props
-)(ToJS(UserRepos)));
+)(ToJS(UserRepos));

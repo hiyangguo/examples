@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Nav } from 'rsuite';
 import { Link } from 'react-router';
-import axios from 'axios';
-import { normalize } from 'normalizr';
-import { updateEntities } from '@/redux/modules/entities';
-import * as Entity from '@/constants/Entities';
 import connect from 'react-redux/es/connect/connect';
 import { selectRepo } from '@/redux/selectors';
 import ToJS from '@/hocs/ToJS';
 import Octicon from '@/components/Octicon';
+import { bindActionCreators } from 'redux';
+import { fetchRepo } from '@/redux/actions';
 
 function NavTab(props) {
   return <Nav.Item componentClass={Link} {...props} />;
@@ -21,17 +19,12 @@ class RepositoryLayout extends PureComponent {
   }
 
   fetchRepository() {
-    const { dispatch, params: { owner, name } } = this.props;
-    return axios(`/repos/${owner}/${name}`)
-      .then(({ data }) => {
-        const { entities } = normalize(data, Entity.Repository);
-        dispatch(updateEntities(entities));
-      });
+    return this.props.onFetchRepo();
   }
 
   render() {
-    const { children, repository, params: { owner, name }, router: { isActive } } = this.props;
-    const repoUrl = repository ? `/${repository.full_name}` : `/${owner}/${name}`;
+    const { children, repo, params: { owner, name }, router: { isActive } } = this.props;
+    const repoUrl = repo ? `/${repo.full_name}` : `/${owner}/${name}`;
 
     return (
       <div className="page-content">
@@ -46,7 +39,7 @@ class RepositoryLayout extends PureComponent {
             README
           </NavTab>
           <NavTab
-            to={`${repoUrl}/commits${repository && `/${repository.default_branch}`}`}
+            to={`${repoUrl}/commits${repo && `/${repo.default_branch}`}`}
             active={isActive(`${repoUrl}/commits`)}
             icon={<Octicon name="code" />}
           >
@@ -93,7 +86,7 @@ class RepositoryLayout extends PureComponent {
           </NavTab>
         </Nav>
         {
-          repository &&
+          repo &&
           <div className="repository-content">
             {children}
           </div>
@@ -103,8 +96,27 @@ class RepositoryLayout extends PureComponent {
   }
 }
 
+function mapState2Props(state, { params: { owner, name }, }) {
+  return {
+    repo: selectRepo(state)(owner, name)
+  }
+}
+
+function mapDispatch2Props(dispatch, { location, params: { owner, name } }) {
+  const actions = bindActionCreators({
+    fetchRepo
+  }, dispatch);
+
+  const onFetchRepo = params =>
+    actions.fetchRepo(owner, name, params);
+
+  return {
+    onFetchRepo
+  }
+}
+
+
 module.exports = connect(
-  (state, { params: { owner, name } }) => ({
-    repository: selectRepo(state)(owner, name),
-  }),
+  mapState2Props,
+  mapDispatch2Props
 )(ToJS(RepositoryLayout));

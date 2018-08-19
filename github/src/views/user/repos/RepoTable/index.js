@@ -37,7 +37,7 @@ function RepoNameCell({ rowData, dataKey = 'name', ...props }) {
           </small>
         }
         {
-          license &&
+          license && license.spdx_id &&
           <small>
             <Octicon name="law" />
             {license.spdx_id}

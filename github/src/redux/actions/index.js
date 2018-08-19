@@ -3,6 +3,20 @@ import { normalize } from 'normalizr';
 import * as Entity from '@/constants/Entities';
 import { updateEntities } from '@/redux/modules/entities';
 
+export function fetchUser(login, params) {
+  return dispatch => axios(`/users/${login}`, { params })
+    .then((res) => {
+      const { data } = res;
+      const { result, entities } = normalize(data, Entity.User);
+      dispatch(updateEntities(entities));
+
+      return {
+        ...res,
+        data: result
+      };
+    });
+}
+
 export function fetchUserRepos(login, params) {
   return dispatch =>
     axios(`/users/${login}/repos`, { params })
@@ -16,6 +30,20 @@ export function fetchUserRepos(login, params) {
           data: entities[Entity.User.key][result].repos
         };
       })
+}
+
+export function fetchRepo(owner, name, params) {
+  return dispatch => axios(`/repos/${owner}/${name}`, { params })
+    .then((res) => {
+      const { data } = res;
+      const { result, entities } = normalize(data, Entity.Repository);
+      dispatch(updateEntities(entities));
+
+      return {
+        ...res,
+        data: result
+      };
+    });
 }
 
 export function fetchCommits(owner, name, sha, params) {
