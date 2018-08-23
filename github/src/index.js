@@ -3,7 +3,6 @@ import 'babel-polyfill';
 
 import axios from 'axios';
 import toQueryString from '@/utils/toQueryString';
-import '@/utils/axios-mutex-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
