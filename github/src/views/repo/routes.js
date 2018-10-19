@@ -17,6 +17,10 @@ module.exports = {
       ]
     },
     {
+      path: 'commit/:sha',
+      component: require('./commits/detail')
+    },
+    {
       path: 'issues',
       indexRoute: {
         component: require('./issues')

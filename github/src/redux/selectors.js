@@ -15,7 +15,7 @@ export const selectUser = createSelector(
   selectEntities,
   entities => _memorize(
     login => denormalize(login, Entity.User, entities)
-  ),
+  )
 );
 
 export const selectRepo = createSelector(
@@ -50,6 +50,13 @@ export const selectCommits = createSelector(
   state => state.get('entities'),
   entities => _memorize(
     (ids = List()) => denormalize(ids, [Entity.Commit], entities)
+  )
+);
+
+export const selectCommit = createSelector(
+  state => state.get('entities'),
+  entities => _memorize(
+    (owner, repo, sha) => denormalize(`${owner}/${repo}@${sha.substr(0, 7)}`, Entity.Commit, entities)
   )
 );
 

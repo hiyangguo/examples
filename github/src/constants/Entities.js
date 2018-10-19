@@ -71,7 +71,10 @@ export const Repository = new schema.Entity('repos', {
   }
 });
 
-export const Commit = new schema.Entity('commits', {}, {
+export const Commit = new schema.Entity('commits', {
+  author: User,
+  committer: User
+}, {
   idAttribute(commit, repo) {
     return `${repo.full_name}@${commit.sha.substr(0, 7)}`;
   },

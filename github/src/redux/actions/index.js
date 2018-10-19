@@ -29,7 +29,7 @@ export function fetchUserRepos(login, params) {
           ...res,
           data: entities[Entity.User.key][result].repos
         };
-      })
+      });
 }
 
 export function fetchRepo(owner, name, params) {
@@ -58,7 +58,22 @@ export function fetchCommits(owner, name, sha, params) {
           ...res,
           data: entities[Entity.Repository.key][result].commits
         };
-      })
+      });
+}
+
+export function fetchCommit(owner, repo, sha) {
+  return dispatch =>
+    axios(`/repos/${owner}/${repo}/commits/${sha}`)
+      .then((res) => {
+        const { data } = res;
+        const { result, entities } = normalize({ full_name: `${owner}/${repo}`, commits: [data] }, Entity.Repository);
+        dispatch(updateEntities(entities));
+
+        return {
+          ...res,
+          data: `${owner}/${repo}@${sha.substring(0, 7)}`
+        };
+      });
 }
 
 export function fetchRepoIssues(owner, name, { type = 'issues', ...params }) {
@@ -77,7 +92,7 @@ export function fetchRepoIssues(owner, name, { type = 'issues', ...params }) {
           ...res,
           data: entities[Entity.Repository.key][result][type]
         };
-      })
+      });
 }
 
 export function fetchRepoPulls(owner, name, params) {
@@ -95,5 +110,5 @@ export function fetchRepoPulls(owner, name, params) {
           ...res,
           data: entities[Entity.Repository.key][result].pulls
         };
-      })
+      });
 }
