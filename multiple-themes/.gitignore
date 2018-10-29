@@ -1,0 +1,3 @@
+# Ignore script generate files.
+/src/less/themes/*.less
+/src/themes.js
