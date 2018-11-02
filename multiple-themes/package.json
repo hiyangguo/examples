@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "generate-themes": "rm -rf src/less/themes/*.less && node script/generate-themes.js",
-    "dev": "npm run generate-themes && NODE_ENV=dev webpack-dev-server --mode development --progress --hot",
-    "build": "npm run generate-themes && rm -rf dist && NODE_ENV=production webpack --mode production --progress && rm -rf dist/themes.bundle.js",
+    "dev": "NODE_ENV=dev webpack-dev-server --mode development --progress --hot",
+    "build": "rm -rf dist && NODE_ENV=production webpack --mode production --progress && rm -rf dist/themes.bundle.js",
     "publish": "npm run build && node publish.js"
   },
   "author": "Godfery <hiyangguo@qq.com>",
@@ -60,6 +60,7 @@
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10",
-    "webpack-merge": "^4.1.4"
+    "webpack-merge": "^4.1.4",
+    "webpack-multiple-themes-compile": "^1.0.1"
   }
 }
