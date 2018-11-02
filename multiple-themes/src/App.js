@@ -21,6 +21,14 @@ const styles = {
 };
 
 class App extends React.Component {
+  static LoadCssFile = (href, theme) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.dataset.theme = theme;
+    document.head.appendChild(link);
+    return link;
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -40,11 +48,7 @@ class App extends React.Component {
     if (theme === (currentLink && currentLink.dataset.theme)) {
       return;
     }
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = `./theme-${theme}.css`;
-    link.dataset.theme = theme;
-    document.head.appendChild(link);
+    const link = App.LoadCssFile(`./theme-${theme}.css`, theme);
     link.onload = () => {
       this.removeTheme();
       this.setState({
@@ -71,7 +75,6 @@ class App extends React.Component {
       <FlexboxGrid justify="center" style={styles.marginTop}>
         <FlexboxGrid.Item colspan={10}>
           <Dropdown title="Change Theme Color" onSelect={this.changeTheme}>
-            <Dropdown.Item eventKey="default">default</Dropdown.Item>
             {themes.map(theme => (
               <Dropdown.Item key={theme} eventKey={theme}>
                 {theme}

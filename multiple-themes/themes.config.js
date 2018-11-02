@@ -1,4 +1,5 @@
 module.exports = {
+  default: {},
   green: {
     'base-color': '#4caf50'
   },

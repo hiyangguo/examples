@@ -1,46 +1,15 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
+const multipleThemesCompile = require('webpack-multiple-themes-compile');
+const themes = require('./themes.config');
 
 const { NODE_ENV } = process.env;
 
 const isDev = NODE_ENV === 'dev';
-
-const THEME_PATH = './src/less/themes';
-
-const extractLess = new ExtractTextPlugin('style.[hash].css');
-
-const styleLoaders = [
-  { loader: 'css-loader' },
-  {
-    loader: 'less-loader?javascriptEnabled=true'
-  }
-];
-
-const resolveToThemeStaticPath = fileName => path.resolve(THEME_PATH, fileName);
-const themeFileNameSet = fs
-  .readdirSync(path.resolve(THEME_PATH))
-  .filter(fileName => /\.less/.test(fileName));
-const themePaths = themeFileNameSet.map(resolveToThemeStaticPath);
-const getThemeName = fileName => `theme-${path.basename(fileName, path.extname(fileName))}`;
-
-// Set of all ExtractLessPlugins.
-const themesExtractLessSet = themeFileNameSet.map(
-  fileName => new ExtractTextPlugin(`${getThemeName(fileName)}.css`)
-);
-// Set of theme loaders.
-const themeLoaderSet = themeFileNameSet.map((fileName, index) => {
-  return {
-    test: /\.(less|css)$/,
-    include: resolveToThemeStaticPath(fileName),
-    loader: themesExtractLessSet[index].extract({
-      use: styleLoaders
-    })
-  };
-});
 
 const commonConfig = {
   devServer: {
@@ -69,20 +38,26 @@ const commonConfig = {
           'babel-loader?babelrc'
         ],
         exclude: /node_modules/
-      },
-      {
-        test: /\.(less|css)$/,
-        exclude: themePaths,
-        loader: extractLess.extract({
-          use: styleLoaders,
-          // use style-loader in development.
-          fallback: 'style-loader?{attrs:{prop: "value"}}'
-        })
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      // 使用 cssnano 优化
+      new OptimizeCSSAssetsPlugin({
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          discardComments: { removeAll: true },
+          // zindex 不优化
+          zindex: {
+            disabled: true
+          }
+        },
+        canPrint: true
+      })
+    ]
+  },
   plugins: [
-    extractLess,
     new HtmlwebpackPlugin({
       title: 'RSUITE multiple themes examples',
       template: 'src/index.html',
@@ -90,18 +65,20 @@ const commonConfig = {
       excludeChunks: ['themes']
     }),
     new webpack.DefinePlugin({
-      'process.env.themes': JSON.stringify(
-        themeFileNameSet.map(fileName => fileName.replace('.less', ''))
-      )
+      'process.env.themes': JSON.stringify(Object.keys(themes))
     })
   ]
 };
 
-const themesConfig = {
-  module: {
-    rules: themeLoaderSet
-  },
-  plugins: themesExtractLessSet
-};
+const themeConfig = multipleThemesCompile({
+  themesConfig: themes,
+  styleLoaders: [
+    { loader: 'css-loader' },
+    {
+      loader: 'less-loader?javascriptEnabled=true'
+    }
+  ],
+  cwd: path.resolve('./')
+});
 
-module.exports = merge(commonConfig, themesConfig);
+module.exports = merge(commonConfig, themeConfig);
