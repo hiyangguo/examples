@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const multipleThemesCompile = require('webpack-multiple-themes-compile');
@@ -9,17 +10,6 @@ const themes = require('./themes.config');
 const { NODE_ENV } = process.env;
 
 const isDev = NODE_ENV === 'dev';
-
-const themeConfig = multipleThemesCompile({
-  themesConfig: themes,
-  styleLoaders: [
-    { loader: 'css-loader' },
-    {
-      loader: 'less-loader?javascriptEnabled=true'
-    }
-  ],
-  cwd: path.resolve('./')
-});
 
 const commonConfig = {
   devServer: {
@@ -51,6 +41,22 @@ const commonConfig = {
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      // 使用 cssnano 优化
+      new OptimizeCSSAssetsPlugin({
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          discardComments: { removeAll: true },
+          // zindex 不优化
+          zindex: {
+            disabled: true
+          }
+        },
+        canPrint: true
+      })
+    ]
+  },
   plugins: [
     new HtmlwebpackPlugin({
       title: 'RSUITE multiple themes examples',
@@ -63,5 +69,16 @@ const commonConfig = {
     })
   ]
 };
+
+const themeConfig = multipleThemesCompile({
+  themesConfig: themes,
+  styleLoaders: [
+    { loader: 'css-loader' },
+    {
+      loader: 'less-loader?javascriptEnabled=true'
+    }
+  ],
+  cwd: path.resolve('./')
+});
 
 module.exports = merge(commonConfig, themeConfig);
