@@ -1,10 +1,9 @@
-const rewireLess = require('react-app-rewire-less');
+/* config-overrides.js */
+const { override, addLessLoader } = require("customize-cra");
 
-module.exports = function override(config, env) {
-  config = rewireLess.withLoaderOptions({
-    modifyVars: { '@base-color': '#f44336' },
-    javascriptEnabled: true
-  })(config, env);
-
-  return config;
-};
+module.exports = override(
+  addLessLoader({
+    javascriptEnabled: true,
+    modifyVars: { "@base-color": "#f44336" }
+  })
+);
